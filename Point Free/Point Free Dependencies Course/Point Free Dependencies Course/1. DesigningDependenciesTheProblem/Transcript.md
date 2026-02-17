@@ -14,3 +14,28 @@ Problems regarding unchecked dependencies:
 2. Cause stress on Apple Tools: Such as Previews or Playgrounds can stop working or take a long time to solve themselves.
 3. Difficulty to test
 
+## Dependencies as Protocols
+According to the Point Free team, using protocols to abstract the interface of getting data only generated two conformances: a live one which fetches real data and a mock which returns mocked data synchronously.
+
+**A protocol which only abstracts 2 types of conformances is not a strong abstraction**
+
+If we look at Apple's protocol abstraction there is not a single one which abstracts only two types of behaviours. For example, sequences abstracts multiples behaviours.
+
+We could create more conformances such as: Live, HappyPath, Empty, Failure. But this is a lot of code and it is resistant to changes, any changes to the protocol will cascade into many other changes in all protocols.
+
+So a solution for this is to have a single Mock Depedency which allows for customization through storing values inside it.
+
+``` swift
+struct MockPokemonClient: PokemonClientProtocol {
+    var _pokemons: AnyPublisher<[PokemonEntry], Error>
+    var _regions: AnyPublisher<[PokemonRegion], Error> 
+
+    func pokemons() -> AnyPublisher<[PokemonEntry], Error> {
+        _pokemons
+    }
+
+    func regions() -> AnyPublisher<[PokemonRegion], Error> {
+        _regions
+    }
+}
+```
