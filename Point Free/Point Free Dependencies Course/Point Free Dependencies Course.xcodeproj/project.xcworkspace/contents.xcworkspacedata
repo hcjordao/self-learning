@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Point Free/Point Free Dependencies Course/Point Free Dependencies Course.xcodeproj">
+      location = "self:">
    </FileRef>
 </Workspace>
