@@ -13,6 +13,9 @@ public struct PokemonView: View {
         NavigationStack {
             loadedView
                 .navigationTitle("Kanto Pokédex")
+                .task {
+                    await viewModel.fetchPokemons()
+                }
         }
         .overlay(alignment: .bottom) {
             if !viewModel.isConnected {

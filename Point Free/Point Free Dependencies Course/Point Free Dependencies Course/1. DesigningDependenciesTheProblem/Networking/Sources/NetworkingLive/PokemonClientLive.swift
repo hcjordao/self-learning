@@ -1,4 +1,3 @@
-import Combine
 import Foundation
 import Networking
 import Shared
@@ -8,13 +7,9 @@ public extension PokemonClient {
     static let live = PokemonClient(
         pokemons: {
             let url = URL(string: "https://pokeapi.co/api/v2/pokemon?limit=151&offset=0")!
-            
-            return URLSession.shared.dataTaskPublisher(for: url)
-                .map { data, _ in data}
-                .decode(type: PokemonResponseDTO.self, decoder:  JSONDecoder())
-                .map(PokemonEntry.mapToDomain)
-                .receive(on: DispatchQueue.main)
-                .eraseToAnyPublisher()
+            let (data, _) = try await URLSession.shared.data(from: url)
+            let dto = try JSONDecoder().decode(PokemonResponseDTO.self, from: data)
+            return PokemonEntry.mapToDomain(dto)
         },
         regions: {
             fatalError("Not implemented yet")

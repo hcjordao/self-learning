@@ -1,4 +1,3 @@
-import Combine
 import Foundation
 import Networking
 import Shared
@@ -9,7 +8,6 @@ public final class PokemonViewModel {
     private(set) var isConnected: Bool
 
     private var pokemonClient: PokemonClient
-    private var pokemonRequestCancellable: AnyCancellable?
     
     public init(
         isConnected: Bool = true,
@@ -17,16 +15,14 @@ public final class PokemonViewModel {
     ) {
         self.isConnected = isConnected
         self.pokemonClient = pokemonClient
-        
-        self.pokemonRequestCancellable = pokemonClient
-            .pokemons()
-            .sink(
-                receiveCompletion: { value in
-                    print(value)
-                },
-                receiveValue: { [weak self] pokemons in
-                    self?.pokemons = pokemons
-                }
-            )
+    }
+    
+    @MainActor
+    func fetchPokemons() async {
+        do {
+            self.pokemons = try await pokemonClient.pokemons()
+        } catch {
+            print(error)
+        }
     }
 }
