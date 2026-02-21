@@ -1,20 +1,20 @@
-//
-//  Pokemon.swift
-//  Point Free Dependencies Course
-//
-
 import Foundation
 
-struct PokemonEntry: Identifiable {
-    let id: Int
-    let name: String
+public struct PokemonEntry: Identifiable {
+    public let id: Int
+    public let name: String
 
-    var displayName: String {
+    public init(id: Int, name: String) {
+        self.id = id
+        self.name = name
+    }
+    
+    public var displayName: String {
         name.capitalized
     }
 }
 
-extension PokemonEntry {
+public extension PokemonEntry {
     static func mockPokemonList() -> [Self] {
         [.mock(), .mock(), .mock(), .mock()]
     }

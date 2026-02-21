@@ -6,13 +6,33 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		03000D112F4A5FD8003ADB83 /* FeaturePokemon in Frameworks */ = {isa = PBXBuildFile; productRef = 03000D102F4A5FD8003ADB83 /* FeaturePokemon */; };
+		033D0C6D2F4A577C00F362CB /* NetworkingLive in Frameworks */ = {isa = PBXBuildFile; productRef = 033D0C6C2F4A577C00F362CB /* NetworkingLive */; };
+		033D0C6F2F4A577C00F362CB /* Shared in Frameworks */ = {isa = PBXBuildFile; productRef = 033D0C6E2F4A577C00F362CB /* Shared */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		03B31ED62F44F6790068430C /* Point Free Dependencies Course.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Point Free Dependencies Course.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		033D0C6A2F4A535500F362CB /* Exceptions for "Point Free Dependencies Course" folder in "Point Free Dependencies Course" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"1. DesigningDependenciesTheProblem/FeaturePokemon",
+				"1. DesigningDependenciesTheProblem/Shared",
+			);
+			target = 03B31ED52F44F6790068430C /* Point Free Dependencies Course */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		03B31ED82F44F6790068430C /* Point Free Dependencies Course */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				033D0C6A2F4A535500F362CB /* Exceptions for "Point Free Dependencies Course" folder in "Point Free Dependencies Course" target */,
+			);
 			path = "Point Free Dependencies Course";
 			sourceTree = "<group>";
 		};
@@ -23,16 +43,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				03000D112F4A5FD8003ADB83 /* FeaturePokemon in Frameworks */,
+				033D0C6D2F4A577C00F362CB /* NetworkingLive in Frameworks */,
+				033D0C6F2F4A577C00F362CB /* Shared in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		033D0C6B2F4A577C00F362CB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		03B31ECD2F44F6790068430C = {
 			isa = PBXGroup;
 			children = (
 				03B31ED82F44F6790068430C /* Point Free Dependencies Course */,
+				033D0C6B2F4A577C00F362CB /* Frameworks */,
 				03B31ED72F44F6790068430C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +96,9 @@
 			);
 			name = "Point Free Dependencies Course";
 			packageProductDependencies = (
+				033D0C6C2F4A577C00F362CB /* NetworkingLive */,
+				033D0C6E2F4A577C00F362CB /* Shared */,
+				03000D102F4A5FD8003ADB83 /* FeaturePokemon */,
 			);
 			productName = "Point Free Dependencies Course";
 			productReference = 03B31ED62F44F6790068430C /* Point Free Dependencies Course.app */;
@@ -332,6 +366,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		03000D102F4A5FD8003ADB83 /* FeaturePokemon */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeaturePokemon;
+		};
+		033D0C6C2F4A577C00F362CB /* NetworkingLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkingLive;
+		};
+		033D0C6E2F4A577C00F362CB /* Shared */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Shared;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 03B31ECE2F44F6790068430C /* Project object */;
 }

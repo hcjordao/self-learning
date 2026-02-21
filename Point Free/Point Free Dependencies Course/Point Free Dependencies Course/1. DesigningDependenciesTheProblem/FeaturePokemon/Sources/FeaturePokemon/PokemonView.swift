@@ -1,20 +1,15 @@
-//
-//  ContentView.swift
-//  Point Free Dependencies Course
-//
-//  Created by Henrique Capelatto Jordão on 17/02/26.
-//
-
+import Networking
+import Shared
 import SwiftUI
 
-struct ContentView: View {
+public struct PokemonView: View {
     @State private var viewModel: PokemonViewModel
 
-    init(viewModel: PokemonViewModel) {
+    public init(viewModel: PokemonViewModel) {
         self.viewModel = viewModel
     }
     
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             loadedView
                 .navigationTitle("Kanto Pokédex")
@@ -49,24 +44,11 @@ struct ContentView: View {
     }
 }
 
-import Combine
-
 #Preview {
-    ContentView(
+    PokemonView(
         viewModel: PokemonViewModel(
             isConnected: true,
-            pokemonClient: MockPokemonClient(
-                _pokemons: {
-                    Just(PokemonEntry.mockPokemonList())
-                        .setFailureType(to: Error.self)
-                        .eraseToAnyPublisher()
-                },
-                _regions: {
-                    Just([])
-                        .setFailureType(to: Error.self)
-                        .eraseToAnyPublisher()
-                }
-            )
+            pokemonClient: .happyPath
         )
     )
 }

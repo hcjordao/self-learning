@@ -1,17 +1,16 @@
-//
-//  Point_Free_Dependencies_CourseApp.swift
-//  Point Free Dependencies Course
-//
-//  Created by Henrique Capelatto Jordão on 17/02/26.
-//
-
+import FeaturePokemon
+import NetworkingLive
 import SwiftUI
 
 @main
 struct Application: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: PokemonViewModel())
+            PokemonView(
+                viewModel: PokemonViewModel(
+                    pokemonClient: .live
+                )
+            )
         }
     }
 }

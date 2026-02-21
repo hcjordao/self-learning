@@ -27,15 +27,59 @@ So a solution for this is to have a single Mock Depedency which allows for custo
 
 ``` swift
 struct MockPokemonClient: PokemonClientProtocol {
-    var _pokemons: AnyPublisher<[PokemonEntry], Error>
-    var _regions: AnyPublisher<[PokemonRegion], Error> 
+    var _pokemons: () -> AnyPublisher<[PokemonEntry], Error>
+    var _regions:  () -> AnyPublisher<[PokemonRegion], Error> 
 
     func pokemons() -> AnyPublisher<[PokemonEntry], Error> {
-        _pokemons
+        _pokemons()
     }
 
     func regions() -> AnyPublisher<[PokemonRegion], Error> {
-        _regions
+        _regions()
     }
 }
 ```
+
+# Designing Dependencies: Modularization
+
+For the times that a protocol is not sufficiently abstracting away some functionality, which is most evident in those cases where we only have 1 or 2 conformances, it can be advantageous to scrap the protocols and just use a simple, concrete data type. That is basically what this MockWeatherClient type is now.
+
+## Migrating from a protocol based dependency into a concrete data type based one
+
+For this to be achieved we will use a struct which has functions as variables and create static lets which will be our conformances:
+
+``` swift
+struct SomeDependency {
+    var someApiCall: () -> AnyPublisher<[SomeType], Error>
+    var someApiCall2: () -> AnyPublisher<[SomeType2], Error>
+}
+
+extension SomeDependency {
+    static let live = Self(
+        someApiCall: {
+            // Implementation Details
+        },
+        someApiCall2: {
+            // Implementation Details
+        }
+    )
+}
+```
+
+Pros: 
+1. Since the conformances become value types we can apply transformations to them just as you would in a Array/Dictionary/..., so we can just override a value easily with mocked data (just access the value and change the closure).
+2. This is not available with protocol conformances, I can't just easily change a conformance of a protocol and change the value of it because they are created functions (protocols have functions)
+3. Very lightweight and you can easily change values  
+
+## Using frameworks to further modularize our dependencies
+
+Using packages / frameworks to modularize increases our application's maintainability by isolating code ensures the package does not depend or care about the implementation. On Swift, using packages is the way to go, having a package also improves compilation time, because if the anything the compiled package depends on has not changed then the package itself should not need to be compiled once again.
+
+### Further improving compilation
+
+As this moment of implementation all of the package code lives inside the package: Interface + Live + Mock. However, both interface and mock are compiled much faster as it normally do not depend in third party or heavy code to be compiled. The live code normally will depend in external 3rd party code which will impact compilation time by a lot.
+
+
+## How would this work in a async/await problem?
+
+HCJ: TBD

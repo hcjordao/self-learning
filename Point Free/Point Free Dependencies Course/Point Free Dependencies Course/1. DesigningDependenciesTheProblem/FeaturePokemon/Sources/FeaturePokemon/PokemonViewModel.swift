@@ -1,22 +1,19 @@
-//
-//  PokemonViewModel.swift
-//  Point Free Dependencies Course
-//
-
 import Combine
 import Foundation
+import Networking
+import Shared
 
 @Observable
-final class PokemonViewModel {
+public final class PokemonViewModel {
     private(set) var pokemons: [PokemonEntry] = []
     private(set) var isConnected: Bool
 
-    private var pokemonClient: PokemonClientProtocol
+    private var pokemonClient: PokemonClient
     private var pokemonRequestCancellable: AnyCancellable?
     
-    init(
+    public init(
         isConnected: Bool = true,
-        pokemonClient: PokemonClientProtocol = PokemonClient()
+        pokemonClient: PokemonClient
     ) {
         self.isConnected = isConnected
         self.pokemonClient = pokemonClient
