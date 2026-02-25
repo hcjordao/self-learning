@@ -14,7 +14,7 @@ public struct PokemonView: View {
             loadedView
                 .navigationTitle("Kanto Pokédex")
                 .task {
-                    await viewModel.fetchPokemons()
+                    await viewModel.startMonitoring()
                 }
         }
         .overlay(alignment: .bottom) {
@@ -50,7 +50,7 @@ public struct PokemonView: View {
 #Preview {
     PokemonView(
         viewModel: PokemonViewModel(
-            isConnected: true,
+            networkMonitor: .alwaysConnected,
             pokemonClient: .happyPath
         )
     )

@@ -83,3 +83,27 @@ As this moment of implementation all of the package code lives inside the packag
 ## How would this work in a async/await problem?
 
 HCJ: TBD
+
+# Designing Dependencies: Reachability
+
+## Wrapping types into our own
+
+When using external dependencies every so ofter we will come across types which we can't construct.
+
+To solve this we need to wrap these external types into our own types.
+
+```swift
+// Can't access NWPath.Status
+
+struct NetworkPath {
+    var status: NWPath.Status
+}
+
+extension NetworkPath {
+    init(rawValue: NWPath) {
+        self.status = rawValue.status
+    }
+}
+```  
+
+> ⚠️ Investigate the dependencies in order to be able to extract functionality into proper functions. Check what the function is returning. Take calm looks in order to decide how to wrap this dependency functionality into a struct
