@@ -1,32 +1,44 @@
-import Combine
 import Foundation
+import Network
 import Networking
 import Shared
 
 @Observable
+@MainActor
 public final class PokemonViewModel {
     private(set) var pokemons: [PokemonEntry] = []
-    private(set) var isConnected: Bool
+    private(set) var isConnected = true
 
-    private var pokemonClient: PokemonClient
-    private var pokemonRequestCancellable: AnyCancellable?
+    private let networkMonitor: NetworkMonitorClient
+    private let pokemonClient: PokemonClient
     
     public init(
-        isConnected: Bool = true,
+        networkMonitor: NetworkMonitorClient,
         pokemonClient: PokemonClient
     ) {
-        self.isConnected = isConnected
+        self.networkMonitor = networkMonitor
         self.pokemonClient = pokemonClient
+    }
+    
+    func fetchPokemons() async {
+        pokemons = []
         
-        self.pokemonRequestCancellable = pokemonClient
-            .pokemons()
-            .sink(
-                receiveCompletion: { value in
-                    print(value)
-                },
-                receiveValue: { [weak self] pokemons in
-                    self?.pokemons = pokemons
-                }
-            )
+        do {
+            pokemons = try await pokemonClient.pokemons()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func startMonitoring() async {
+        for await path in networkMonitor.networkPathUpdates() {
+            isConnected = path.status == .satisfied
+            
+            if isConnected {
+                await fetchPokemons()
+            } else {
+                pokemons = []
+            }
+        }
     }
 }

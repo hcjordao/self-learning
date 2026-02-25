@@ -8,6 +8,7 @@ struct Application: App {
         WindowGroup {
             PokemonView(
                 viewModel: PokemonViewModel(
+                    networkMonitor: .live,
                     pokemonClient: .live
                 )
             )
