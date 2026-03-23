@@ -4,8 +4,8 @@ import Shared
 @MainActor
 public extension PokemonClient {
     static let happyPath = PokemonClient(
-        pokemons: {
-            PokemonEntry.mockPokemonList()
+        pokedex: { _ in
+            Pokedex.mock()
         },
         regions: {
             fatalError("Not implemented")
@@ -13,8 +13,8 @@ public extension PokemonClient {
     )
     
     static let empty = PokemonClient(
-        pokemons: {
-            []
+        pokedex: { _ in
+            Pokedex.mock(pokemons: [])
         },
         regions: {
             []
@@ -22,7 +22,7 @@ public extension PokemonClient {
     )
     
     static let error = PokemonClient(
-        pokemons: {
+        pokedex: { _ in
             throw NSError(domain: "", code: 1)
         },
         regions: {

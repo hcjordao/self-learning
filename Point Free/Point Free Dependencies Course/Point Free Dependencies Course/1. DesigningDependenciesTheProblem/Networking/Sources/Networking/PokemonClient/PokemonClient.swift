@@ -1,17 +1,17 @@
 import Shared
 
 public struct PokemonClient: Sendable {
-    public typealias PokemonProvider = @Sendable () async throws -> [PokemonEntry]
+    public typealias PokedexProvider = @Sendable (Int) async throws -> Pokedex
     public typealias RegionsProvider = @Sendable () async throws -> [PokemonRegion]
     
-    public var pokemons: PokemonProvider
+    public var pokedex: PokedexProvider
     public var regions: RegionsProvider
     
     public init(
-        pokemons: @escaping PokemonProvider,
+        pokedex: @escaping PokedexProvider,
         regions: @escaping RegionsProvider
     ) {
-        self.pokemons = pokemons
+        self.pokedex = pokedex
         self.regions = regions
     }
 }

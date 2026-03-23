@@ -80,10 +80,6 @@ Using packages / frameworks to modularize increases our application's maintainab
 As this moment of implementation all of the package code lives inside the package: Interface + Live + Mock. However, both interface and mock are compiled much faster as it normally do not depend in third party or heavy code to be compiled. The live code normally will depend in external 3rd party code which will impact compilation time by a lot.
 
 
-## How would this work in a async/await problem?
-
-HCJ: TBD
-
 # Designing Dependencies: Reachability
 
 ## Wrapping types into our own
@@ -107,3 +103,8 @@ extension NetworkPath {
 ```  
 
 > ⚠️ Investigate the dependencies in order to be able to extract functionality into proper functions. Check what the function is returning. Take calm looks in order to decide how to wrap this dependency functionality into a struct
+
+
+# Designing Dependencies: Core Location
+
+## 

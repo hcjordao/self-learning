@@ -1,33 +1,54 @@
 import Foundation
 import Shared
 
-public struct PokemonResponseDTO: Decodable {
-    public let results: [PokemonEntry]
+public struct PokedexResponseDTO: Decodable {
+    public let pokemonEntries: [PokemonEntry]
     
     public struct PokemonEntry: Decodable {
-        public let name: String
-        public let url: String
+        public let entryNumber: Int
+        public let pokemonSpecies: PokemonSpecies
         
-        public init(name: String, url: String) {
-            self.name = name
-            self.url = url
+        enum CodingKeys: String, CodingKey {
+            case entryNumber = "entry_number"
+            case pokemonSpecies = "pokemon_species"
         }
+        
+        public struct PokemonSpecies: Decodable {
+            public let name: String
+            public let url: String
+            
+            public init(name: String, url: String) {
+                self.name = name
+                self.url = url
+            }
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case pokemonEntries = "pokemon_entries"
     }
 }
 
-public extension PokemonEntry {
-    static func mapToDomain(_ dto: PokemonResponseDTO) -> [Self] {
-        dto.results.map(Self.init)
+public extension Pokedex {
+    init(_ dto: PokedexResponseDTO) {
+        self.init(
+            region: "TBD",
+            pokemons: dto.pokemonEntries.map(Pokemon.init)
+        )
     }
-    
-    init(_  dto: PokemonResponseDTO.PokemonEntry) {
-        let components = dto.url.trimmingCharacters(in: CharacterSet(charactersIn: "/"))
-                    .components(separatedBy: "/")
-        let id = Int(components.last ?? "0") ?? 0
+}
+
+public extension Pokemon {
+    init(_ dto: PokedexResponseDTO.PokemonEntry) {
+        let components = dto.pokemonSpecies.url
+            .trimmingCharacters(in: CharacterSet(charactersIn: "/"))
+            .components(separatedBy: "/")
+        let pokedexId = Int(components.last ?? "0") ?? 0
         
         self.init(
-            id: id,
-            name: dto.name
+            entryId: dto.entryNumber,
+            pokedexId: pokedexId,
+            name: dto.pokemonSpecies.name
         )
     }
 }

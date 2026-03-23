@@ -26,23 +26,42 @@ public struct PokemonView: View {
                     .frame(maxWidth: .infinity)
                     .padding(.vertical, 12)
                     .background(.red)
-                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                    .transition(
+                        .move(edge: .bottom)
+                        .combined(with: .opacity)
+                    )
             }
         }
         .animation(.easeInOut, value: viewModel.isConnected)
     }
     
     var loadedView: some View {
-        List(viewModel.pokemons) { entry in
-            HStack {
-                Text("#\(entry.id)")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .frame(width: 44, alignment: .leading)
+        ZStack(alignment: .bottomTrailing) {
+            List(viewModel.pokedex?.pokemons ?? []) { entry in
+                HStack {
+                    Text("#\(entry.id)")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .frame(width: 44, alignment: .leading)
 
-                Text(entry.displayName)
-                    .font(.body)
+                    Text(entry.displayName)
+                        .font(.body)
+                }
             }
+            
+            Button(
+                action: {
+                    viewModel.locationButtonTapped()
+                },
+                label: {
+                    Image(systemName: "location.fill")
+                        .foregroundStyle(.white)
+                        .frame(width: 60, height: 60)
+                }
+            )
+            .background(.black)
+            .clipShape(Circle())
+            .padding()
         }
     }
 }
